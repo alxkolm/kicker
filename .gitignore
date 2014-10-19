@@ -1,4 +1,5 @@
 config/db.php
+composer.lock
 
 # phpstorm project files
 .idea
