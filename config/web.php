@@ -5,6 +5,8 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
+    'timeZone' => 'Europe/Moscow',
+    'defaultRoute' => 'game/index',
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
@@ -38,6 +40,9 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+        ]
     ],
     'params' => $params,
 ];
