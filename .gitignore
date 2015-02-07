@@ -1,4 +1,5 @@
 config/db.php
+config/vkontakte.php
 composer.lock
 
 # phpstorm project files

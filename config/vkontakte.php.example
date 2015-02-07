@@ -1,0 +1,7 @@
+<?php
+return [
+    'class'       => '\app\components\VKontakte\VKontakteAuth',
+    'clientId'    => 'client id',
+    'secret'      => 'secret key',
+    'redirectUri' => ['site/vkontakte']
+];
