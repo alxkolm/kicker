@@ -26,14 +26,30 @@ use yii\bootstrap\ActiveForm;
 
     <fieldset class="form-group" style="border: 1px solid #bbb; padding: 20px;">
         <label>Комманда А</label>
-        <?= $form->field($model, 'teamA_defender')->dropDownList(User::listData(), ['prompt' => '']) ?>
-        <?= $form->field($model, 'teamA_forward')->dropDownList(User::listData(), ['prompt' => '']) ?>
+        <div class="row">
+            <div class="col-md-6">
+                <?= $form->field($model, 'teamA_playerA')->dropDownList(User::listData(), ['prompt' => '']) ?>
+            </div>
+            <div class="col-md-6">
+                <?= $form->field($model, 'teamA_playerB')->dropDownList(User::listData(), ['prompt' => '']) ?>
+            </div>
+        </div>
+
+
     </fieldset>
     <fieldset class="form-group" style="border: 1px solid #bbb; padding: 20px;">
         <label>Комманда B</label>
-        <?= $form->field($model, 'teamB_defender')->dropDownList(User::listData(), ['prompt' => '']) ?>
+        <div class="row">
+            <div class="col-md-6">
+                <?= $form->field($model, 'teamB_playerC')->dropDownList(User::listData(), ['prompt' => '']) ?>
+            </div>
+            <div class="col-md-6">
+                <?= $form->field($model, 'teamB_playerD')->dropDownList(User::listData(), ['prompt' => '']) ?>
+            </div>
+        </div>
 
-        <?= $form->field($model, 'teamB_forward')->dropDownList(User::listData(), ['prompt' => '']) ?>
+
+
     </fieldset>
 
 
@@ -44,7 +60,7 @@ use yii\bootstrap\ActiveForm;
     <?= $form->endField() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

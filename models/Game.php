@@ -11,17 +11,19 @@ use yii\db\Expression;
  *
  * @property integer $id
  * @property string $date
- * @property integer $teamA_defender
- * @property integer $teamA_forward
- * @property integer $teamB_defender
- * @property integer $teamB_forward
+ * @property integer $scoreA
+ * @property integer $scoreB
+ * @property integer $teamA_playerA
+ * @property integer $teamA_playerB
+ * @property integer $teamB_playerC
+ * @property integer $teamB_playerD
  * @property string $modified
  * @property string $created
  *
- * @property User $teamBForward
- * @property User $teamADefender
- * @property User $teamAForward
- * @property User $teamBDefender
+ * @property User $playerA
+ * @property User $playerB
+ * @property User $playerC
+ * @property User $playerD
  */
 class Game extends \yii\db\ActiveRecord
 {
@@ -33,7 +35,7 @@ class Game extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'game';
+        return '{{%game}}';
     }
 
     public function behaviors()
@@ -55,8 +57,8 @@ class Game extends \yii\db\ActiveRecord
     {
         return [
             [['dateInput'], 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'dateInputTimestamp'],
-            [['dateInput', 'scoreA', 'scoreB', 'teamA_defender', 'teamB_defender'], 'required'],
-            [['teamA_defender', 'teamA_forward', 'teamB_defender', 'teamB_forward'], 'integer']
+            [['dateInput', 'scoreA', 'scoreB', 'teamA_playerA', 'teamB_playerC'], 'required'],
+            [['teamA_playerA', 'teamA_playerB', 'teamB_playerC', 'teamB_playerD'], 'integer']
         ];
     }
 
@@ -68,10 +70,10 @@ class Game extends \yii\db\ActiveRecord
         return [
             'id'             => 'ID',
             'date'           => 'Дата',
-            'teamA_defender' => 'Защитник',
-            'teamA_forward'  => 'Нападающий',
-            'teamB_defender' => 'Защитник',
-            'teamB_forward'  => 'Нападающий',
+            'teamA_playerA' => 'Защитник',
+            'teamA_playerB'  => 'Нападающий',
+            'teamB_playerC' => 'Защитник',
+            'teamB_playerD'  => 'Нападающий',
             'modified'       => 'Modified',
             'created'        => 'Created',
         ];
@@ -89,32 +91,32 @@ class Game extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTeamBForward()
+    public function getPlayerA()
     {
-        return $this->hasOne(User::className(), ['id' => 'teamB_forward']);
+        return $this->hasOne(User::className(), ['id' => 'teamA_playerA']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTeamADefender()
+    public function getPlayerB()
     {
-        return $this->hasOne(User::className(), ['id' => 'teamA_defender']);
+        return $this->hasOne(User::className(), ['id' => 'teamA_playerB']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTeamAForward()
+    public function getPlayerC()
     {
-        return $this->hasOne(User::className(), ['id' => 'teamA_forward']);
+        return $this->hasOne(User::className(), ['id' => 'teamB_playerC']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTeamBDefender()
+    public function getPlayerD()
     {
-        return $this->hasOne(User::className(), ['id' => 'teamB_defender']);
+        return $this->hasOne(User::className(), ['id' => 'teamB_playerD']);
     }
 }

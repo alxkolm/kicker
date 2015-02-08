@@ -19,13 +19,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'date') ?>
 
-    <?= $form->field($model, 'teamA_defender') ?>
+    <?= $form->field($model, 'teamA_playerA') ?>
 
-    <?= $form->field($model, 'teamA_forward') ?>
+    <?= $form->field($model, 'teamA_playerB') ?>
 
-    <?= $form->field($model, 'teamB_defender') ?>
+    <?= $form->field($model, 'teamB_playerC') ?>
 
-    <?php // echo $form->field($model, 'teamB_forward') ?>
+    <?php // echo $form->field($model, 'teamB_playerD') ?>
 
     <?php // echo $form->field($model, 'modified') ?>
 

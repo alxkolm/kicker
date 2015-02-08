@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Game;
 use app\models\SocialIdentity;
 use app\models\User;
 use Yii;
@@ -53,7 +54,11 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        // Последние игры
+        $recentGames = Game::find()->orderBy('created DESC')->limit(7);
+        return $this->render('index', [
+            'recentGames' => $recentGames,
+        ]);
     }
 
     public function actionLogin()
@@ -128,7 +133,7 @@ class SiteController extends Controller
         } else {
             $user = User::findOne($identity->user_id);
         }
-
-        return "Привет {$user->firstname} {$user->lastname}.";
+        Yii::$app->user->login($user);
+        $this->redirect(['site/index']);
     }
 }

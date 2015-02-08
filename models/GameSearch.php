@@ -18,7 +18,7 @@ class GameSearch extends Game
     public function rules()
     {
         return [
-            [['id', 'teamA_defender', 'teamA_forward', 'teamB_defender', 'teamB_forward'], 'integer'],
+            [['id', 'teamA_playerA', 'teamA_playerB', 'teamB_playerC', 'teamB_playerD'], 'integer'],
             [['date', 'modified', 'created'], 'safe'],
         ];
     }
@@ -54,10 +54,10 @@ class GameSearch extends Game
         $query->andFilterWhere([
             'id' => $this->id,
             'date' => $this->date,
-            'teamA_defender' => $this->teamA_defender,
-            'teamA_forward' => $this->teamA_forward,
-            'teamB_defender' => $this->teamB_defender,
-            'teamB_forward' => $this->teamB_forward,
+            'teamA_playerA' => $this->teamA_playerA,
+            'teamA_playerB' => $this->teamA_playerB,
+            'teamB_playerC' => $this->teamB_playerC,
+            'teamB_playerD' => $this->teamB_playerD,
             'modified' => $this->modified,
             'created' => $this->created,
         ]);
