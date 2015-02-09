@@ -28,7 +28,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'Starcode Kicker',
+                'brandLabel' => 'Kicker CRM',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -39,7 +39,7 @@ AppAsset::register($this);
                     'class' => 'navbar-nav'
                 ],
                 'items' => [
-                    ['label' => 'Записать игру', 'url' => ['game/create']],
+                    ['label' => 'Записать результат', 'url' => ['game/create']],
                 ],
             ]);
             echo Nav::widget([
