@@ -118,6 +118,10 @@ class Game extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
+        if ($insert){
+            $this->created = new Expression('NOW()');
+        }
+
         if (!empty($this->dateInput)){
             // Применяем дату из формы
 
