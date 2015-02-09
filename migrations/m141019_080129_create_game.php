@@ -29,10 +29,10 @@ class m141019_080129_create_game extends Migration
         $this->createIndex('playerB_role', '{{%game}}', 'playerB_role');
         $this->createIndex('playerC_role', '{{%game}}', 'playerC_role');
         $this->createIndex('playerD_role', '{{%game}}', 'playerD_role');
-        $this->addForeignKey('teamA_playerA', '{{%game}}', 'teamA_playerA', 'user', 'id', 'CASCADE');
-        $this->addForeignKey('teamA_playerB', '{{%game}}', 'teamA_playerB', 'user', 'id', 'CASCADE');
-        $this->addForeignKey('teamB_playerC', '{{%game}}', 'teamB_playerC', 'user', 'id', 'CASCADE');
-        $this->addForeignKey('teamB_playerD', '{{%game}}', 'teamB_playerD', 'user', 'id', 'CASCADE');
+        $this->addForeignKey('teamA_playerA_user', '{{%game}}', 'teamA_playerA', 'user', 'id', 'CASCADE');
+        $this->addForeignKey('teamA_playerB_user', '{{%game}}', 'teamA_playerB', 'user', 'id', 'CASCADE');
+        $this->addForeignKey('teamB_playerC_user', '{{%game}}', 'teamB_playerC', 'user', 'id', 'CASCADE');
+        $this->addForeignKey('teamB_playerD_user', '{{%game}}', 'teamB_playerD', 'user', 'id', 'CASCADE');
     }
 
     public function down()
