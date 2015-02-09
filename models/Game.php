@@ -70,8 +70,9 @@ class Game extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dateInput'], 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'dateInputTimestamp'],
-            [['dateInput', 'scoreA', 'scoreB', 'teamA_playerA', 'teamB_playerC'], 'required'],
+            [['dateInput'], 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'dateInputTimestamp', 'except' => ['track']],
+            [['dateInput'], 'required', 'except' => ['track']],
+            [['scoreA', 'scoreB', 'teamA_playerA', 'teamB_playerC'], 'required'],
             [['teamA_playerA', 'teamA_playerB', 'teamB_playerC', 'teamB_playerD'], 'integer'],
             [['playerA_role_form', 'playerB_role_form', 'playerC_role_form', 'playerD_role_form'], 'safe']
         ];

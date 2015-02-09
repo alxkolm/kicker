@@ -121,4 +121,30 @@ class GameController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionStart()
+    {
+        $model = new Game();
+        $model->scenario = 'track';
+        $model->date = date('Y-m-d H:i:s');
+        $model->scoreA = 0;
+        $model->scoreB = 0;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['game/track', 'id' => $model->id]);
+        }
+
+        return $this->render('start', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionTrack($id)
+    {
+        $model = $this->findModel($id);
+
+        return $this->render('track', [
+            'model' => $model,
+        ]);
+    }
 }
