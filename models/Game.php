@@ -173,6 +173,11 @@ class Game extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'teamB_playerD']);
     }
 
+    public function getGoals()
+    {
+        return $this->hasMany(Goal::className(), ['game_id' => 'id']);
+    }
+
     public function bitwiseOr($a, $b)
     {
         return $a | $b;

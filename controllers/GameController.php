@@ -6,10 +6,13 @@ use app\models\User;
 use Yii;
 use app\models\Game;
 use app\models\GameSearch;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\View;
 
 /**
  * GameController implements the CRUD actions for Game model.
@@ -142,6 +145,24 @@ class GameController extends Controller
     public function actionTrack($id)
     {
         $model = $this->findModel($id);
+
+        // Передаем все голы в js
+        $goals = $model->getGoals()->orderBy('created')->all();
+        $goals = ArrayHelper::getColumn($goals, 'attributes');
+        $this->view->registerJs('var goals = '.Json::encode($goals).';', View::POS_HEAD);
+
+        // Передаем данные об игроках в js
+        $players = ArrayHelper::map(
+            [
+                $model->playerA,
+                $model->playerB,
+                $model->playerC,
+                $model->playerD,
+            ],
+            'id',
+            function ($a) use ($model) {return array_merge($a->attributes, ['team' => $model->isTeamA($a->id) ? 'A' : 'B']);}
+            );
+        $this->view->registerJs('var players = '.Json::encode($players).';', View::POS_HEAD);
 
         return $this->render('track', [
             'model' => $model,
