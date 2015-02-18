@@ -34,7 +34,18 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'modified',
             // 'created',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {track} {delete}',
+                'buttons' => [
+                    'track' => function($url, $model, $key){
+                        return Html::a('<span class="glyphicon glyphicon-flash"></span>', $url, [
+                            'title' => Yii::t('yii', 'Track'),
+                            'data-pjax' => '0',
+                        ]);
+                    }
+                ],
+            ],
         ],
     ]); ?>
 

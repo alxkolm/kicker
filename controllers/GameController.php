@@ -147,4 +147,15 @@ class GameController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionGoal()
+    {
+        $gameId = Yii::$app->request->post('id');
+        $userId = Yii::$app->request->post('user');
+        $autogoal = (bool) Yii::$app->request->post('autogoal');
+
+        $game = $this->findModel($gameId);
+
+        $game->scoreGoal($userId, $autogoal);
+    }
 }

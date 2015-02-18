@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Game;
+use yii\data\Sort;
 
 /**
  * GameSearch represents the model behind the search form about `app\models\Game`.
@@ -43,8 +44,14 @@ class GameSearch extends Game
     {
         $query = Game::find();
 
+        $sort = new Sort();
+        $sort->defaultOrder = [
+            'id' => SORT_DESC,
+        ];
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => $sort,
         ]);
 
         if (!($this->load($params) && $this->validate())) {

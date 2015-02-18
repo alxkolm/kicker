@@ -177,4 +177,27 @@ class Game extends \yii\db\ActiveRecord
     {
         return $a | $b;
     }
+
+    public function scoreGoal($userId, $autogoal = false)
+    {
+        $goal = new Goal();
+        $goal->autogoal = $autogoal;
+        $goal->user_id = $userId;
+        $goal->game_id = $this->id;
+        if ($goal->save(false)){
+            $isTeamA = $this->isTeamA($userId);
+            if (($isTeamA && !$autogoal) || (!$isTeamA && $autogoal)){
+                $this->scoreA += 1;
+            } else {
+                $this->scoreB += 1;
+            }
+            $this->save();
+        }
+    }
+
+    public function isTeamA($userId)
+    {
+        return $this->teamA_playerA == $userId
+            || $this->teamA_playerB == $userId;
+    }
 }
