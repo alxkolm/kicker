@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\GameForm;
 use app\models\User;
 use Yii;
 use app\models\Game;
@@ -66,7 +67,7 @@ class GameController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Game();
+        $model = new GameForm();
         $model->dateInput = date('d.m.Y');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -119,7 +120,7 @@ class GameController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Game::findOne($id)) !== null) {
+        if (($model = GameForm::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -128,7 +129,7 @@ class GameController extends Controller
 
     public function actionStart()
     {
-        $model = new Game();
+        $model = new GameForm();
         $model->scenario = 'track';
         $model->date = date('Y-m-d H:i:s');
         $model->scoreA = 0;
@@ -183,5 +184,31 @@ class GameController extends Controller
         $goal->refresh();
 
         return $goal->attributes;
+    }
+
+    public function actionRepeat($id)
+    {
+        $model = $this->findModel($id);
+
+        $game = new Game();
+        $game->setAttributes($model->getAttributes([
+            'teamA_playerA',
+            'teamA_playerB',
+            'teamB_playerC',
+            'teamB_playerD',
+            'playerA_role',
+            'playerB_role',
+            'playerC_role',
+            'playerD_role',
+        ]));
+        $game->scoreA = 0;
+        $game->scoreB = 0;
+        $game->date = date('Y-m-d');
+        if ($game->save()){
+            $this->redirect(['game/track', 'id' => $game->id]);
+        } else {
+            throw new \Exception('Не удалось создать новую игру.'.Json::encode($game->errors));
+        }
+
     }
 }

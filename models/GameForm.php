@@ -22,10 +22,6 @@ use yii\helpers\FormatConverter;
  * @property integer $playerB_role
  * @property integer $playerC_role
  * @property integer $playerD_role
- * @property integer $playerA_role_form
- * @property integer $playerB_role_form
- * @property integer $playerC_role_form
- * @property integer $playerD_role_form
  * @property string $modified
  * @property string $created
  *
@@ -34,8 +30,16 @@ use yii\helpers\FormatConverter;
  * @property User $playerC
  * @property User $playerD
  */
-class Game extends \yii\db\ActiveRecord
+class GameForm extends Game
 {
+    public $dateInput;
+    public $dateInputTimestamp;
+
+    public $playerA_role_form;
+    public $playerB_role_form;
+    public $playerC_role_form;
+    public $playerD_role_form;
+
     /**
      * @inheritdoc
      */
@@ -62,8 +66,11 @@ class Game extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['dateInput'], 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'dateInputTimestamp', 'except' => ['track']],
+            [['dateInput'], 'required', 'except' => ['track']],
             [['scoreA', 'scoreB', 'teamA_playerA', 'teamB_playerC'], 'required'],
             [['teamA_playerA', 'teamA_playerB', 'teamB_playerC', 'teamB_playerD'], 'integer'],
+            [['playerA_role_form', 'playerB_role_form', 'playerC_role_form', 'playerD_role_form'], 'safe']
         ];
     }
 
@@ -84,75 +91,50 @@ class Game extends \yii\db\ActiveRecord
         ];
     }
 
-
+    public function afterFind()
+    {
+        // Преобразуем битовый флаг в массив для формы
+        foreach (['A', 'B', 'C', 'D'] as $letter){
+            $fieldForm  = "player{$letter}_role_form";
+            $fieldModel = "player{$letter}_role";
+            $rest = (int)$this->$fieldModel;
+            $result = [];
+            $bit = 1;
+            while ($rest != 0) {
+                if ($rest & $bit){
+                    $result[] = $bit;
+                }
+                $rest = $rest & (~$bit);
+                $bit = $bit << 1;
+            }
+            $this->$fieldForm = $result;
+        }
+        // Преобразуем дату для формы
+        $this->dateInput = date('d.m.Y', strtotime($this->date));
+    }
 
     public function beforeSave($insert)
     {
-        if ($insert){
-            $this->created = new Expression('NOW()');
+        if (!empty($this->dateInput)){
+            // Применяем дату из формы
+
+            $this->date = Yii::$app->formatter->asDate($this->dateInputTimestamp, 'yyyy-MM-dd');
+        }
+
+        // Конвертим выбраные чекбоксы в битовый флаг
+        foreach (['A', 'B', 'C', 'D'] as $letter){
+            $fieldForm  = "player{$letter}_role_form";
+            $fieldModel = "player{$letter}_role";
+            if (is_array($this->$fieldForm)){
+                $this->$fieldModel = array_reduce($this->$fieldForm, [$this, 'bitwiseOr'], 0);
+            }
         }
 
         return parent::beforeSave($insert);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPlayerA()
+    public function bitwiseOr($a, $b)
     {
-        return $this->hasOne(User::className(), ['id' => 'teamA_playerA']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPlayerB()
-    {
-        return $this->hasOne(User::className(), ['id' => 'teamA_playerB']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPlayerC()
-    {
-        return $this->hasOne(User::className(), ['id' => 'teamB_playerC']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPlayerD()
-    {
-        return $this->hasOne(User::className(), ['id' => 'teamB_playerD']);
-    }
-
-    public function getGoals()
-    {
-        return $this->hasMany(Goal::className(), ['game_id' => 'id']);
-    }
-
-    public function scoreGoal($userId, $autogoal = false)
-    {
-        $goal = new Goal();
-        $goal->autogoal = $autogoal;
-        $goal->user_id = $userId;
-        $goal->game_id = $this->id;
-        if ($goal->save(false)){
-            $isTeamA = $this->isTeamA($userId);
-            if (($isTeamA && !$autogoal) || (!$isTeamA && $autogoal)){
-                $this->scoreA += 1;
-            } else {
-                $this->scoreB += 1;
-            }
-            $this->save();
-        }
-        return $goal;
-    }
-
-    public function isTeamA($userId)
-    {
-        return $this->teamA_playerA == $userId
-            || $this->teamA_playerB == $userId;
+        return $a | $b;
     }
 }

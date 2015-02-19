@@ -47,3 +47,11 @@ TrackAppAsset::register($this);
     <div class="col-md-3 col-md-offset-1 col-xs-6 col-xs-offset-0 events" id="container-events">
     </div>
 </div>
+<?= \yii\bootstrap\Button::widget([
+    'label' => 'Повторить матч',
+    'tagName' => 'a',
+    'options' => [
+        'class' => 'btn btn-lg btn-primary',
+        'href' => \yii\helpers\Url::to(['game/repeat', 'id' => $model->id]),
+    ],
+]) ?>
