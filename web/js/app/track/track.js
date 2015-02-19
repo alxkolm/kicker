@@ -9,7 +9,7 @@ define(['views/track', 'views/events'], function(TrackView, EventsView){
 
 
 
-    var eventsView = new EventsView();
+    window.eventsView = new EventsView();
     $('#container-events').append(eventsView.render().el);
 
 });

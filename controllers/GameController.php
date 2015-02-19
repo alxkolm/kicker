@@ -12,6 +12,7 @@ use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 use yii\web\View;
 
 /**
@@ -171,12 +172,16 @@ class GameController extends Controller
 
     public function actionGoal()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $gameId = Yii::$app->request->post('id');
         $userId = Yii::$app->request->post('user');
         $autogoal = (bool) Yii::$app->request->post('autogoal');
 
         $game = $this->findModel($gameId);
 
-        $game->scoreGoal($userId, $autogoal);
+        $goal = $game->scoreGoal($userId, $autogoal);
+        $goal->refresh();
+
+        return $goal->attributes;
     }
 }

@@ -11,6 +11,10 @@ define(function(){
                     id:       el.attr('game-id'),
                     user:     el.attr('user-id'),
                     autogoal: el.is('.autogoal') ? 1 : 0
+                },
+                success: function(reply){
+                    // Добавляем гол
+                    window.eventsView.goals.add(new Backbone.Model(reply));
                 }
             });
         }

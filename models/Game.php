@@ -198,6 +198,7 @@ class Game extends \yii\db\ActiveRecord
             }
             $this->save();
         }
+        return $goal;
     }
 
     public function isTeamA($userId)
