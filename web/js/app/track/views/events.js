@@ -17,7 +17,7 @@ define(['text!templates/events.html', 'views/event'], function(tpl, EventView){
         },
         addOne: function(item){
             var view = new EventView({model: item});
-            this.$el.append(view.render().el);
+            this.$el.prepend(view.render().el);
         }
     });
     return EventsView;
