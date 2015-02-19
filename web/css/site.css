@@ -96,3 +96,19 @@ a.desc:after {
     padding-bottom: 5px;
     margin-bottom: 5px;
 }
+
+.events .event {
+    padding: 2px 5px;
+}
+.events .event:nth-child(odd) {
+    background-color: #DDDDDD;
+}
+.events .team-A {
+    text-align: left;
+}
+.events .team-B {
+    text-align: right;
+}
+.events .event .autogoal {
+    color: red;
+}

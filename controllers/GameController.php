@@ -149,7 +149,7 @@ class GameController extends Controller
         // Передаем все голы в js
         $goals = $model->getGoals()->orderBy('created')->all();
         $goals = ArrayHelper::getColumn($goals, 'attributes');
-        $this->view->registerJs('var goals = '.Json::encode($goals).';', View::POS_HEAD);
+        $this->view->registerJs('var kicker_goals = '.Json::encode($goals).';', View::POS_HEAD);
 
         // Передаем данные об игроках в js
         $players = ArrayHelper::map(
@@ -162,7 +162,7 @@ class GameController extends Controller
             'id',
             function ($a) use ($model) {return array_merge($a->attributes, ['team' => $model->isTeamA($a->id) ? 'A' : 'B']);}
             );
-        $this->view->registerJs('var players = '.Json::encode($players).';', View::POS_HEAD);
+        $this->view->registerJs('var kicker_players = '.Json::encode($players).';', View::POS_HEAD);
 
         return $this->render('track', [
             'model' => $model,
