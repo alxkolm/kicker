@@ -125,9 +125,7 @@ class GameForm extends Game
         foreach (['A', 'B', 'C', 'D'] as $letter){
             $fieldForm  = "player{$letter}_role_form";
             $fieldModel = "player{$letter}_role";
-            if (is_array($this->$fieldForm)){
-                $this->$fieldModel = array_reduce($this->$fieldForm, [$this, 'bitwiseOr'], 0);
-            }
+            $this->$fieldModel = (is_array($this->$fieldForm)) ? array_reduce($this->$fieldForm, [$this, 'bitwiseOr'], 0) : 0;
         }
 
         return parent::beforeSave($insert);
@@ -136,5 +134,14 @@ class GameForm extends Game
     public function bitwiseOr($a, $b)
     {
         return $a | $b;
+    }
+
+    public static function roles()
+    {
+        return [
+            Game::PLAYER_ROLE_ATTACK => 'Нападение',
+            Game::PLAYER_ROLE_DEFENCE => 'Защита',
+            Game::PLAYER_ROLE_SHASHLICHNIK => 'Шашлычник',
+        ];
     }
 }

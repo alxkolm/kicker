@@ -36,6 +36,9 @@ use yii\helpers\FormatConverter;
  */
 class Game extends \yii\db\ActiveRecord
 {
+    const PLAYER_ROLE_ATTACK       = 1;
+    const PLAYER_ROLE_DEFENCE      = 2;
+    const PLAYER_ROLE_SHASHLICHNIK = 4;
     /**
      * @inheritdoc
      */

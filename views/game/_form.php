@@ -1,7 +1,7 @@
 <?php
 
+use app\models\GameForm;
 use app\models\User;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\jui\DatePicker;
 use yii\bootstrap\ActiveForm;
@@ -29,11 +29,11 @@ use yii\bootstrap\ActiveForm;
         <div class="row">
             <div class="col-md-6">
                 <?= $form->field($model, 'teamA_playerA')->dropDownList(User::listData(), ['prompt' => '']) ?>
-                <?= $form->field($model, 'playerA_role_form')->checkboxList([1 => 'Нападение', 2 => 'Защита'])?>
+                <?= $form->field($model, 'playerA_role_form')->checkboxList(GameForm::roles())?>
             </div>
             <div class="col-md-6">
                 <?= $form->field($model, 'teamA_playerB')->dropDownList(User::listData(), ['prompt' => '']) ?>
-                <?= $form->field($model, 'playerB_role_form')->checkboxList([1 => 'Нападение', 2 => 'Защита'])?>
+                <?= $form->field($model, 'playerB_role_form')->checkboxList(GameForm::roles())?>
             </div>
         </div>
 
@@ -44,11 +44,11 @@ use yii\bootstrap\ActiveForm;
         <div class="row">
             <div class="col-md-6">
                 <?= $form->field($model, 'teamB_playerC')->dropDownList(User::listData(), ['prompt' => '']) ?>
-                <?= $form->field($model, 'playerC_role_form')->checkboxList([1 => 'Нападение', 2 => 'Защита'])?>
+                <?= $form->field($model, 'playerC_role_form')->checkboxList(GameForm::roles())?>
             </div>
             <div class="col-md-6">
                 <?= $form->field($model, 'teamB_playerD')->dropDownList(User::listData(), ['prompt' => '']) ?>
-                <?= $form->field($model, 'playerD_role_form')->checkboxList([1 => 'Нападение', 2 => 'Защита'])?>
+                <?= $form->field($model, 'playerD_role_form')->checkboxList(GameForm::roles())?>
             </div>
         </div>
 
