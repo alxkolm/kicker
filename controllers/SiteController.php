@@ -134,6 +134,6 @@ class SiteController extends Controller
             $user = User::findOne($identity->user_id);
         }
         Yii::$app->user->login($user);
-        $this->redirect(['site/index']);
+        $this->redirect(Yii::$app->user->returnUrl);
     }
 }
