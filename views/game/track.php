@@ -29,17 +29,20 @@ TrackAppAsset::register($this);
     </div>
     <div class="row" style="margin-top: 2em;">
         <div class="col-xs-3">
-
-            <p class="text-center">
-                <?= \yii\helpers\Html::a($model->playerB->lastname, null, ['class' => 'btn btn-success do-goal', 'user-id' => $model->playerB->id, 'game-id' => $model->id])?>
-                <?= \yii\helpers\Html::a('Автогол', null, ['class' => 'btn btn-danger btn-xs do-goal autogoal', 'user-id' => $model->playerB->id, 'game-id' => $model->id])?>
-            </p>
+            <?php if ($model->playerB): ?>
+                <p class="text-center">
+                    <?= \yii\helpers\Html::a($model->playerB->lastname, null, ['class' => 'btn btn-success do-goal', 'user-id' => $model->playerB->id, 'game-id' => $model->id])?>
+                    <?= \yii\helpers\Html::a('Автогол', null, ['class' => 'btn btn-danger btn-xs do-goal autogoal', 'user-id' => $model->playerB->id, 'game-id' => $model->id])?>
+                </p>
+            <?php endif; ?>
         </div>
         <div class="col-xs-3">
-            <p class="text-center">
-                <?= \yii\helpers\Html::a($model->playerD->lastname, null, ['class' => 'btn btn-primary do-goal', 'user-id' => $model->playerD->id, 'game-id' => $model->id])?>
-                <?= \yii\helpers\Html::a('Автогол', null, ['class' => 'btn btn-danger btn-xs do-goal autogoal', 'user-id' => $model->playerD->id, 'game-id' => $model->id])?>
-            </p>
+            <?php if ($model->playerB): ?>
+                <p class="text-center">
+                    <?= \yii\helpers\Html::a($model->playerD->lastname, null, ['class' => 'btn btn-primary do-goal', 'user-id' => $model->playerD->id, 'game-id' => $model->id])?>
+                    <?= \yii\helpers\Html::a('Автогол', null, ['class' => 'btn btn-danger btn-xs do-goal autogoal', 'user-id' => $model->playerD->id, 'game-id' => $model->id])?>
+                </p>
+            <?php endif; ?>
         </div>
     </div>
 </div>

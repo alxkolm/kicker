@@ -162,7 +162,7 @@ class GameController extends Controller
                 $model->playerD,
             ],
             'id',
-            function ($a) use ($model) {return array_merge($a->attributes, ['team' => $model->isTeamA($a->id) ? 'A' : 'B']);}
+            function ($a) use ($model) {return $a === null ? null : array_merge($a->attributes, ['team' => $model->isTeamA($a->id) ? 'A' : 'B']);}
             );
         $this->view->registerJs('var kicker_players = '.Json::encode($players).';', View::POS_HEAD);
 
