@@ -1,5 +1,6 @@
 <?php
 
+use app\models\GameForm;
 use app\models\User;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
