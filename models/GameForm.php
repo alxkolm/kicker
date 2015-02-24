@@ -86,6 +86,10 @@ class GameForm extends Game
             'teamA_playerB' => 'Игрок B',
             'teamB_playerC' => 'Игрок C',
             'teamB_playerD' => 'Игрок D',
+            'playerA_role_form' => 'Роль',
+            'playerB_role_form' => 'Роль',
+            'playerC_role_form' => 'Роль',
+            'playerD_role_form' => 'Роль',
             'modified'      => 'Modified',
             'created'       => 'Created',
         ];
