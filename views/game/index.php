@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Game;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -37,13 +38,28 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update} {track} {delete}',
+                'headerOptions' => ['style' => 'width: 100px'],
                 'buttons' => [
-                    'track' => function($url, $model, $key){
-                        return Html::a('<span class="glyphicon glyphicon-flash"></span>', $url, [
+                    'track' => function ($url, Game $model, $key) {
+                        return $model->userInGame(Yii::$app->user->id) ? Html::a('<span class="glyphicon glyphicon-flash"></span>', $url, [
                             'title' => Yii::t('yii', 'Track'),
                             'data-pjax' => '0',
-                        ]);
-                    }
+                        ]) : '';
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        return $model->userInGame(Yii::$app->user->id) ? Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                            'title' => Yii::t('yii', 'Delete'),
+                            'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                            'data-method' => 'post',
+                            'data-pjax' => '0',
+                        ]) : '';
+                    },
+                    'update' => function ($url, $model, $key) {
+                        return $model->userInGame(Yii::$app->user->id) ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                            'title' => Yii::t('yii', 'Update'),
+                            'data-pjax' => '0',
+                        ]) : '';
+                    },
                 ],
             ],
         ],

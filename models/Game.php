@@ -158,4 +158,20 @@ class Game extends \yii\db\ActiveRecord
         return $this->teamA_playerA == $userId
             || $this->teamA_playerB == $userId;
     }
+
+    public function getPlayersId()
+    {
+        return [
+            $this->teamA_playerA,
+            $this->teamA_playerB,
+            $this->teamB_playerC,
+            $this->teamB_playerD,
+        ];
+    }
+
+    public function userInGame($user_id = null)
+    {
+        $user_id = $user_id === null ? Yii::$app->user->id : $user_id;
+        return in_array($user_id, $this->getPlayersId());
+    }
 }

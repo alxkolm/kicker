@@ -7,6 +7,7 @@ use app\models\User;
 use Yii;
 use app\models\Game;
 use app\models\GameSearch;
+use yii\base\Action;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -30,10 +31,16 @@ class GameController extends Controller
                 'rules' => [
                     // allow authenticated users
                     [
+                        'actions' => ['index', 'view', 'create', 'start'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                    // everything else is denied
+                    [
+                        'actions' => ['update', 'delete', 'track', 'goal', 'repeat'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => [$this, 'allowEdit']
+                    ],
                 ],
             ],
             'verbs' => [
@@ -222,5 +229,18 @@ class GameController extends Controller
             throw new \Exception('Не удалось создать новую игру.'.Json::encode($game->errors));
         }
 
+    }
+
+    /**
+     * @param $rule
+     * @param $action Action
+     * @return bool
+     * @throws NotFoundHttpException
+     */
+    public function allowEdit($rule, $action)
+    {
+        $id = Yii::$app->request->getQueryParam('id', Yii::$app->request->getBodyParam('id'));
+        $model = $this->findModel($id);
+        return $model->userInGame();
     }
 }
