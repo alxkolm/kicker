@@ -70,7 +70,8 @@ class GameForm extends Game
             [['dateInput'], 'required', 'except' => ['track']],
             [['scoreA', 'scoreB', 'teamA_playerA', 'teamB_playerC'], 'required'],
             [['teamA_playerA', 'teamA_playerB', 'teamB_playerC', 'teamB_playerD'], 'integer'],
-            [['playerA_role_form', 'playerB_role_form', 'playerC_role_form', 'playerD_role_form'], 'safe']
+            [['playerA_role_form', 'playerB_role_form', 'playerC_role_form', 'playerD_role_form'], 'safe'],
+            ['teamA_playerA', 'validateDistinctPlayers'],
         ];
     }
 
@@ -147,5 +148,28 @@ class GameForm extends Game
             Game::PLAYER_ROLE_DEFENCE => 'Защита',
             Game::PLAYER_ROLE_SHASHLICHNIK => 'Шашлычник',
         ];
+    }
+
+    /**
+     * Все игроки должны быть разными
+     * @param $attribute
+     * @param $params
+     */
+    public function validateDistinctPlayers($attribute, $params)
+    {
+        $players = [
+            (int)$this->teamA_playerA,
+            (int)$this->teamB_playerC,
+        ];
+
+        if (!empty($this->teamA_playerB) && !empty($this->teamB_playerD)){
+            $players[] = (int)$this->teamA_playerB;
+            $players[] = (int)$this->teamB_playerD;
+        }
+
+        if (count(array_unique($players)) != count($players)){
+            // TODO Установить ошибку на правиьлное поле с дублирующимся игроком
+            $this->addError('teamA_playerA', 'Игрок не может играть на нескольких позициях');
+        }
     }
 }
