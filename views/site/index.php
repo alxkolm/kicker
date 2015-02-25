@@ -9,7 +9,7 @@ $this->title = 'My Yii Application';
 
     <div class="jumbotron">
         <p><a class="btn btn-lg btn-success" href="<?= Url::to(['game/create'])?>">Записать результат</a></p>
-        <p><a class="btn btn-lg btn-success" href="<?= Url::to(['game/start'])?>">Начать игру</a></p>
+        <p><a class="btn btn-lg btn-primary" href="<?= Url::to(['game/start'])?>">Начать игру</a></p>
     </div>
 
     <div class="body-content">
@@ -18,12 +18,13 @@ $this->title = 'My Yii Application';
             <div class="col-lg-4">
                 <h2>Последние игры</h2>
 
-                <?= \yii\widgets\ListView::widget([
-                    'dataProvider' => new ActiveDataProvider(['query' => $recentGames]),
-                    'itemView' => '_game',
-                    'layout' => '{items}'
-                ]) ?>
-
+                <div class="hidden-xs">
+                    <?= \yii\widgets\ListView::widget([
+                        'dataProvider' => new ActiveDataProvider(['query' => $recentGames]),
+                        'itemView' => '_game',
+                        'layout' => '{items}'
+                    ]) ?>
+                </div>
                 <p><a class="btn btn-default" href="<?= Url::to(['game/index']) ?>">Все игры &raquo;</a></p>
             </div>
             <div class="col-lg-4">
