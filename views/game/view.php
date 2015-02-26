@@ -9,6 +9,9 @@ use yii\widgets\DetailView;
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Games', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$a = $model->getGameUserDefenceA()->one();
+$a = $model->getPlayerA()->one();
 ?>
 <div class="game-view">
 

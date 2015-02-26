@@ -7,58 +7,21 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\helpers\FormatConverter;
 
-/**
- * This is the model class for table "game".
- *
- * @property integer $id
- * @property string $date
- * @property integer $scoreA
- * @property integer $scoreB
- * @property integer $teamA_playerA
- * @property integer $teamA_playerB
- * @property integer $teamB_playerC
- * @property integer $teamB_playerD
- * @property integer $playerA_role
- * @property integer $playerB_role
- * @property integer $playerC_role
- * @property integer $playerD_role
- * @property string $modified
- * @property string $created
- *
- * @property User $playerA
- * @property User $playerB
- * @property User $playerC
- * @property User $playerD
- */
+
 class GameForm extends Game
 {
+    public $playerA_form;
+    public $playerB_form;
+    public $playerC_form;
+    public $playerD_form;
+
     public $dateInput;
     public $dateInputTimestamp;
 
-    public $playerA_role_form;
-    public $playerB_role_form;
-    public $playerC_role_form;
-    public $playerD_role_form;
-
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%game}}';
-    }
-
-    public function behaviors()
-    {
-        return [
-            [
-                'class'              => TimestampBehavior::className(),
-                'createdAtAttribute' => 'created',
-                'updatedAtAttribute' => 'modified',
-                'value'              => new Expression('NOW()'),
-            ],
-        ];
-    }
+    public $playerA_role_form = 0;
+    public $playerB_role_form = 0;
+    public $playerC_role_form = 0;
+    public $playerD_role_form = 0;
 
     /**
      * @inheritdoc
@@ -68,10 +31,10 @@ class GameForm extends Game
         return [
             [['dateInput'], 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'dateInputTimestamp', 'except' => ['track']],
             [['dateInput'], 'required', 'except' => ['track']],
-            [['scoreA', 'scoreB', 'teamA_playerA', 'teamB_playerC'], 'required'],
-            [['teamA_playerA', 'teamA_playerB', 'teamB_playerC', 'teamB_playerD'], 'integer'],
+            [['scoreA', 'scoreB', 'playerA_form', 'playerC_form'], 'required'],
+            [['playerA_form', 'playerB_form', 'playerC_form', 'playerD_form'], 'integer'],
             [['playerA_role_form', 'playerB_role_form', 'playerC_role_form', 'playerD_role_form'], 'safe'],
-            ['teamA_playerA', 'validateDistinctPlayers'],
+            ['playerA_form', 'validateDistinctPlayers'],
         ];
     }
 
@@ -101,8 +64,12 @@ class GameForm extends Game
         // Преобразуем битовый флаг в массив для формы
         foreach (['A', 'B', 'C', 'D'] as $letter){
             $fieldForm  = "player{$letter}_role_form";
-            $fieldModel = "player{$letter}_role";
-            $rest = (int)$this->$fieldModel;
+            $fieldUser = "player{$letter}";
+            $user = $this->$fieldUser();
+            if ($user === null){
+                continue;
+            }
+            $rest = (int)$user->flag;
             $result = [];
             $bit = 1;
             while ($rest != 0) {
@@ -130,10 +97,16 @@ class GameForm extends Game
         foreach (['A', 'B', 'C', 'D'] as $letter){
             $fieldForm  = "player{$letter}_role_form";
             $fieldModel = "player{$letter}_role";
-            $this->$fieldModel = (is_array($this->$fieldForm)) ? array_reduce($this->$fieldForm, [$this, 'bitwiseOr'], 0) : 0;
+//            $this->$fieldModel = (is_array($this->$fieldForm)) ? array_reduce($this->$fieldForm, [$this, 'bitwiseOr'], 0) : 0;
         }
 
         return parent::beforeSave($insert);
+    }
+
+    public function afterSave()
+    {
+        // Обновляем связи
+
     }
 
     public function bitwiseOr($a, $b)
@@ -158,18 +131,18 @@ class GameForm extends Game
     public function validateDistinctPlayers($attribute, $params)
     {
         $players = [
-            (int)$this->teamA_playerA,
-            (int)$this->teamB_playerC,
+            (int)$this->playerA_form,
+            (int)$this->playerC_form,
         ];
 
-        if (!empty($this->teamA_playerB) && !empty($this->teamB_playerD)){
-            $players[] = (int)$this->teamA_playerB;
-            $players[] = (int)$this->teamB_playerD;
+        if (!empty($this->playerB_form) && !empty($this->playerD_form)){
+            $players[] = (int)$this->playerB_form;
+            $players[] = (int)$this->playerD_form;
         }
 
         if (count(array_unique($players)) != count($players)){
             // TODO Установить ошибку на правиьлное поле с дублирующимся игроком
-            $this->addError('teamA_playerA', 'Игрок не может играть на нескольких позициях');
+            $this->addError('playerA_form', 'Игрок не может играть на нескольких позициях');
         }
     }
 }

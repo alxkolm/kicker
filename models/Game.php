@@ -14,14 +14,6 @@ use yii\helpers\FormatConverter;
  * @property string $date
  * @property integer $scoreA
  * @property integer $scoreB
- * @property integer $teamA_playerA
- * @property integer $teamA_playerB
- * @property integer $teamB_playerC
- * @property integer $teamB_playerD
- * @property integer $playerA_role
- * @property integer $playerB_role
- * @property integer $playerC_role
- * @property integer $playerD_role
  * @property integer $playerA_role_form
  * @property integer $playerB_role_form
  * @property integer $playerC_role_form
@@ -33,12 +25,23 @@ use yii\helpers\FormatConverter;
  * @property User $playerB
  * @property User $playerC
  * @property User $playerD
+ * @property GameUser $gameUserAttackA
+ * @property GameUser $gameUserDefenceA
+ * @property GameUser $gameUserAttackB
+ * @property GameUser $gameUserDefenceB
  */
 class Game extends \yii\db\ActiveRecord
 {
+    // Константы строго степени двойки
     const PLAYER_ROLE_ATTACK       = 1;
     const PLAYER_ROLE_DEFENCE      = 2;
     const PLAYER_ROLE_SHASHLICHNIK = 4;
+
+    const TEAM_A = 'A';
+    const TEAM_B = 'B';
+
+    const POSITION_ATTACK  = 'attack';
+    const POSITION_DEFENSE = 'defense';
     /**
      * @inheritdoc
      */
@@ -98,12 +101,44 @@ class Game extends \yii\db\ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    public function getGameUserAttackA(){
+        return $this->hasOne(GameUser::className(), ['game_id' => 'id'])
+            ->where([
+                'team'     => self::TEAM_A,
+                'position' => self::POSITION_ATTACK
+            ]);
+    }
+
+    public function getGameUserDefenceA(){
+        return $this->hasOne(GameUser::className(), ['game_id' => 'id'])
+            ->where([
+                'team'     => self::TEAM_A,
+                'position' => self::POSITION_DEFENSE
+            ]);
+    }
+
+    public function getGameUserAttackB(){
+        return $this->hasOne(GameUser::className(), ['game_id' => 'id'])
+            ->where([
+                'team'     => self::TEAM_B,
+                'position' => self::POSITION_ATTACK
+            ]);
+    }
+
+    public function getGameUserDefenceB(){
+        return $this->hasOne(GameUser::className(), ['game_id' => 'id'])
+            ->where([
+                'team'     => self::TEAM_B,
+                'position' => self::POSITION_DEFENSE
+            ]);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getPlayerA()
     {
-        return $this->hasOne(User::className(), ['id' => 'teamA_playerA']);
+        return $this->hasOne(User::className(), ['id' => 'user_id'])->via('gameUserAttackA');
     }
 
     /**
@@ -111,7 +146,7 @@ class Game extends \yii\db\ActiveRecord
      */
     public function getPlayerB()
     {
-        return $this->hasOne(User::className(), ['id' => 'teamA_playerB']);
+        return $this->hasOne(User::className(), ['id' => 'user_id'])->via('gameUserDefenceA');
     }
 
     /**
@@ -119,7 +154,7 @@ class Game extends \yii\db\ActiveRecord
      */
     public function getPlayerC()
     {
-        return $this->hasOne(User::className(), ['id' => 'teamB_playerC']);
+        return $this->hasOne(User::className(), ['id' => 'user_id'])->via('gameUserAttackB');
     }
 
     /**
@@ -127,14 +162,38 @@ class Game extends \yii\db\ActiveRecord
      */
     public function getPlayerD()
     {
-        return $this->hasOne(User::className(), ['id' => 'teamB_playerD']);
+        return $this->hasOne(User::className(), ['id' => 'user_id'])->via('gameUserDefenceB');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGameUsers()
+    {
+        return $this->hasMany(GameUser::className(), ['game_id' => 'id']);
+    }
+
+    /**
+     * @return static
+     */
+    public function getPlayers()
+    {
+        return $this->hasMany(User::className(), ['id' => 'user_id'])->via('gameUsers');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getGoals()
     {
         return $this->hasMany(Goal::className(), ['game_id' => 'id']);
     }
 
+    /**
+     * @param $userId
+     * @param bool $autogoal
+     * @return Goal
+     */
     public function scoreGoal($userId, $autogoal = false)
     {
         $goal = new Goal();
@@ -155,23 +214,16 @@ class Game extends \yii\db\ActiveRecord
 
     public function isTeamA($userId)
     {
-        return $this->teamA_playerA == $userId
-            || $this->teamA_playerB == $userId;
+        return (bool)$this->getGameUsers()->where(['user_id' => $userId, 'team' => 'A'])->count();
     }
 
-    public function getPlayersId()
+    /**
+     * @param null $userId
+     * @return bool
+     */
+    public function userInGame($userId = null)
     {
-        return [
-            $this->teamA_playerA,
-            $this->teamA_playerB,
-            $this->teamB_playerC,
-            $this->teamB_playerD,
-        ];
-    }
-
-    public function userInGame($user_id = null)
-    {
-        $user_id = $user_id === null ? Yii::$app->user->id : $user_id;
-        return in_array($user_id, $this->getPlayersId());
+        $userId = $userId === null ? Yii::$app->user->id : $userId;
+        return (bool)$this->getGameUsers()->where(['user_id' => $userId])->count();
     }
 }
