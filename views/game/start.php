@@ -27,11 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 <label>Комманда А</label>
                 <div class="row">
                     <div class="col-md-6">
-                        <?= $form->field($model, 'teamA_playerA')->dropDownList(User::listData(), ['prompt' => '']) ?>
+                        <?= $form->field($model, 'players_form[A]')->dropDownList(User::listData(), ['prompt' => '']) ?>
                         <?= $form->field($model, 'playerA_role_form', ['options' => ['class' => 'hidden-xs']])->checkboxList(GameForm::roles())?>
                     </div>
                     <div class="col-md-6">
-                        <?= $form->field($model, 'teamA_playerB')->dropDownList(User::listData(), ['prompt' => '']) ?>
+                        <?= $form->field($model, 'players_form[B]')->dropDownList(User::listData(), ['prompt' => '']) ?>
                         <?= $form->field($model, 'playerB_role_form', ['options' => ['class' => 'hidden-xs']])->checkboxList(GameForm::roles())?>
                     </div>
                 </div>
@@ -42,11 +42,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 <label>Комманда B</label>
                 <div class="row">
                     <div class="col-md-6">
-                        <?= $form->field($model, 'teamB_playerC')->dropDownList(User::listData(), ['prompt' => '']) ?>
+                        <?= $form->field($model, 'players_form[C]')->dropDownList(User::listData(), ['prompt' => '']) ?>
                         <?= $form->field($model, 'playerC_role_form', ['options' => ['class' => 'hidden-xs']])->checkboxList(GameForm::roles())?>
                     </div>
                     <div class="col-md-6">
-                        <?= $form->field($model, 'teamB_playerD')->dropDownList(User::listData(), ['prompt' => '']) ?>
+                        <?= $form->field($model, 'players_form[D]')->dropDownList(User::listData(), ['prompt' => '']) ?>
                         <?= $form->field($model, 'playerD_role_form', ['options' => ['class' => 'hidden-xs']])->checkboxList(GameForm::roles())?>
                     </div>
                 </div>

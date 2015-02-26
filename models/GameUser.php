@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "game_user".
@@ -29,6 +31,18 @@ class GameUser extends \yii\db\ActiveRecord
         return '{{%game_user}}';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class'              => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created',
+                'updatedAtAttribute' => 'modified',
+                'value'              => new Expression('NOW()'),
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -37,7 +51,8 @@ class GameUser extends \yii\db\ActiveRecord
         return [
             [['game_id', 'user_id'], 'required'],
             [['game_id', 'user_id', 'flags'], 'integer'],
-            [['team', 'position'], 'string'],
+            [['team'], 'in', 'range' => [Game::TEAM_A, Game::TEAM_B]],
+            [['position'], 'in', 'range' => [Game::POSITION_ATTACK, Game::POSITION_DEFENSE]],
             [['game_id', 'user_id'], 'unique', 'targetAttribute' => ['game_id', 'user_id'], 'message' => 'The combination of Game ID and User ID has already been taken.']
         ];
     }

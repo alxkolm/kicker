@@ -68,8 +68,7 @@ class Game extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['scoreA', 'scoreB', 'teamA_playerA', 'teamB_playerC'], 'required'],
-            [['teamA_playerA', 'teamA_playerB', 'teamB_playerC', 'teamB_playerD'], 'integer'],
+            [['scoreA', 'scoreB'], 'required'],
         ];
     }
 
