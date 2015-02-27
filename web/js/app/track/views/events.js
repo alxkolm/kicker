@@ -7,7 +7,7 @@ define(['text!templates/events.html', 'views/event'], function(tpl, EventView){
             this.goals = new Backbone.Collection();
             this.goals.on('add', this.addOne, this);
             var that = this;
-            $.each(window.kicker_goals, function(index, value){
+            $.each(window.kickerTrack.goals, function(index, value){
                 that.goals.add(new Backbone.Model(value));
             });
 

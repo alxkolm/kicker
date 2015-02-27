@@ -112,3 +112,30 @@ a.desc:after {
 .events .event .autogoal {
     color: red;
 }
+
+.split-screen {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.split-screen > div {
+    height: 50%;
+    width: 50%;
+    padding: 2.5%;
+    float: left;
+    color: white;
+}
+.split-screen .top.left {
+    background-color: #0088e4;
+}
+.split-screen .bottom.left {
+    background-color: #006699;
+}
+.split-screen .top.right {
+    background-color: #a83c3a;
+}
+.split-screen .bottom.right {
+    background-color: #b85700;
+}

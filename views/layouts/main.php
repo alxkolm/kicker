@@ -65,13 +65,6 @@ AppAsset::register($this);
             <?= $content ?>
         </div>
     </div>
-
-    <footer class="footer">
-        <div class="container">
-            <p class="pull-left">©<?= date('Y') ?> Starcode</p>
-        </div>
-    </footer>
-
 <?php $this->endBody() ?>
 </body>
 </html>

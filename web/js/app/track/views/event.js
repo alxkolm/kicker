@@ -3,18 +3,18 @@ define(['text!templates/event.html'], function(tpl){
         template: _.template(tpl),
         player: null,
         initialize: function(){
-            this.player = window.kicker_players[this.model.get('user_id')];
-            this.$el.addClass('event team-'+this.player.team);
+            this.player = window.kickerTrack.players[this.model.get('user_id')];
+            this.$el.addClass('event');
         },
         render: function(){
-            this.$el.html(
-                this.template(
-                    $.extend(
-                        this.model.attributes,
-                        {player: this.player}
-                    )
-                )
-            );
+            //this.$el.html(
+            //    this.template(
+            //        $.extend(
+            //            this.model.attributes,
+            //            {player: this.player}
+            //        )
+            //    )
+            //);
             return this;
         }
     });

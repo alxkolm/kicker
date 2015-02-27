@@ -1,3 +1,5 @@
-<div>
-
+<div class="events">
+<% _.each(goals, function(el, index){%>
+   <div><%= el.get('created') %></div>
+<% }) %>
 </div>

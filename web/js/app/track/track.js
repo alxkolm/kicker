@@ -3,13 +3,14 @@ require.config({
 });
 define(['views/track', 'views/events'], function(TrackView, EventsView){
     // bind view to dom
-    new TrackView({
-        el: $('#container-track')
+    var trackView = new TrackView({
+        el: $('#track-split-screen')
     });
+    trackView.render();
 
 
 
-    window.eventsView = new EventsView();
-    $('#container-events').append(eventsView.render().el);
+    //window.eventsView = new EventsView();
+    //$('#container-events').append(eventsView.render().el);
 
 });
