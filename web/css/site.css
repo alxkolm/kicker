@@ -139,3 +139,6 @@ a.desc:after {
 .split-screen .bottom.right {
     background-color: #b85700;
 }
+.player-box .events{
+    font-size: x-small;
+}

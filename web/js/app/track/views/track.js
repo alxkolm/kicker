@@ -17,6 +17,7 @@ define(['text!templates/track.html', 'text!templates/events.html'],function(tpl,
                 that.goals.add(new Backbone.Model(value));
             });
             this.goals.on('add', this.render, this);
+            this.goals.on('change', this.render, this);
         },
         render: function(){
             this.$el.html(this.template({
@@ -27,18 +28,20 @@ define(['text!templates/track.html', 'text!templates/events.html'],function(tpl,
             return this;
         },
         goal: function(e){
-            var el = $(e.target);
+            var el = $(e.currentTarget);
             var that = this;
+            // Добавляем гол
+            var userId = parseInt(el.attr('user-id'));
+            var goal = that.goals.add(new Backbone.Model({user_id: userId, created: 'send...'}));
             $.ajax('/index.php/game/goal', {
                 method: 'post',
                 data: {
                     id:       this.game.id,
-                    user:     el.attr('user-id'),
+                    user:     userId,
                     autogoal: el.is('.autogoal') ? 1 : 0
                 },
                 success: function(reply){
-                    // Добавляем гол
-                    that.goals.add(new Backbone.Model(reply));
+                    goal.set(reply);
                 }
             });
         }
