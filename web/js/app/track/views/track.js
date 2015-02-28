@@ -33,7 +33,7 @@ define(['text!templates/track.html', 'text!templates/events.html'],function(tpl,
             var that = this;
             // Добавляем гол
             var userId = parseInt(el.attr('user-id'));
-            var goal = that.goals.add(new Backbone.Model({user_id: userId, created: 'send...'}));
+            var goal = that.goals.add(new Backbone.Model({user_id: userId, created: 'send...', autogoal: el.is('.autogoal') ? 1 : 0}));
             $.ajax('/index.php/game/goal', {
                 method: 'post',
                 data: {
