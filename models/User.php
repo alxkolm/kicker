@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Exception;
 use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
@@ -18,8 +19,8 @@ use yii\web\IdentityInterface;
  * @property string $password_reset_token
  * @property string $email
  * @property string $auth_key
- * @property integer $created_at
- * @property integer $updated_at
+ * @property integer $created
+ * @property integer $modified
  * @property string $password write-only password
  *
  * @property Game[] $games
@@ -42,7 +43,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             [['firstname', 'lastname'], 'required'],
             [['firstname', 'lastname'], 'string', 'max' => 255],
-            [['firstname', 'lastname'], 'unique', 'targetAttribute' => ['firstname', 'lastname'], 'message' => 'The combination of Firstname and Lastname has already been taken.']
+            [['firstname', 'lastname'], 'unique', 'targetAttribute' => ['firstname', 'lastname'], 'message' => 'The combination of Firstname and Lastname has already been taken.'],
+            ['email', 'safe'],
         ];
     }
 
@@ -52,7 +54,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            [
+                'class'              => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created',
+                'updatedAtAttribute' => 'modified',
+                'value'              => new Expression('NOW()'),
+            ],
         ];
     }
 

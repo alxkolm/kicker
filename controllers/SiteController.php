@@ -122,10 +122,12 @@ class SiteController extends Controller
             // Создаем нового пользователя
             $userData = Yii::$app->vk->methodUserGet();
             $user = new User();
+            $user->generateAuthKey();
             $user->setAttributes(
                 [
-                    'lastname' => $userData['last_name'],
+                    'lastname'  => $userData['last_name'],
                     'firstname' => $userData['first_name'],
+                    'email'     => Yii::$app->vk->getEmail(),
                 ]
             );
             if ($user->save()){
