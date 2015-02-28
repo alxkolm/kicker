@@ -143,7 +143,7 @@ class SiteController extends Controller
         } else {
             $user = User::findOne($identity->user_id);
         }
-        Yii::$app->user->login($user);
+        Yii::$app->user->login($user, 30*24*60*60);
         $this->redirect(Yii::$app->user->returnUrl);
     }
 
