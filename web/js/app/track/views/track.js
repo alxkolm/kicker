@@ -28,6 +28,7 @@ define(['text!templates/track.html', 'text!templates/events.html'],function(tpl,
             return this;
         },
         goal: function(e){
+            e.stopPropagation();
             var el = $(e.currentTarget);
             var that = this;
             // Добавляем гол
