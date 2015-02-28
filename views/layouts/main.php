@@ -42,20 +42,21 @@ AppAsset::register($this);
                     ['label' => 'Записать результат', 'url' => ['game/create']],
                 ],
             ]);
+            $navLinks = [];
+            if (Yii::$app->user->isGuest) {
+                $navLinks[] = ['label' => 'Войти через ВК', 'url' => Yii::$app->vk->authUrl()];
+                $navLinks[] = ['label' => 'Войти как мужик', 'url' => ['/site/login']];
+            } else {
+                $navLinks[] = ['label' => 'Выход (' . Yii::$app->user->identity->firstname . ' ' . Yii::$app->user->identity->lastname . ')',
+                    'url' => ['/site/logout'],
+                    'linkOptions' => ['data-method' => 'post']];
+            }
+
             echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
-//                    ['label' => 'Home', 'url' => ['/site/index']],
-//                    ['label' => 'About', 'url' => ['/site/about']],
-//                    ['label' => 'Contact', 'url' => ['/site/contact']],
-                    Yii::$app->user->isGuest ?
-                        ['label' => 'Войти через ВК', 'url' => Yii::$app->vk->authUrl()] :
-                        ['label' => 'Выход (' . Yii::$app->user->identity->firstname .' '.Yii::$app->user->identity->lastname . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                ],
-            ]);
-            NavBar::end();
+                    'options' => ['class' => 'navbar-nav navbar-right'],
+                    'items' => $navLinks,
+                ]);
+                NavBar::end();
         ?>
 
         <div class="container">

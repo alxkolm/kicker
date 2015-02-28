@@ -3,7 +3,7 @@
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 
-$this->title = 'My Yii Application';
+$this->title = 'Kicker CRM';
 ?>
 <div class="site-index">
 
