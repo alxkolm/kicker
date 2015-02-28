@@ -126,6 +126,10 @@ a.desc:after {
     padding: 2.5%;
     float: left;
     color: white;
+    position: relative;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 .split-screen .top.left {
     background-color: #0088e4;
@@ -141,4 +145,12 @@ a.desc:after {
 }
 .player-box .events{
     font-size: x-small;
+}
+
+.player-box .autogoal {
+    position: absolute;
+    right: 2.5%;
+    padding: 5px;
+    border: 1px solid silver;
+    cursor: pointer;
 }
