@@ -1,7 +1,13 @@
-define(['text!templates/track.html', 'text!templates/events.html'],function(tpl, eventsTpl){
+define([
+    'text!templates/track.html',
+    'text!templates/events.html',
+    'text!templates/player-box.html'
+    ],
+    function(tpl, eventsTpl, playerTpl){
     var TrackView = Backbone.View.extend({
         template: _.template(tpl),
         eventsTpl: _.template(eventsTpl),
+        playerTpl: _.template(playerTpl),
         events: {
             'click .button-goal': 'goal'
         },
@@ -23,7 +29,7 @@ define(['text!templates/track.html', 'text!templates/events.html'],function(tpl,
             this.$el.html(this.template({
                 players: this.players,
                 goals: this.goals,
-                eventsTpl: this.eventsTpl
+                view: this
             }));
             return this;
         },

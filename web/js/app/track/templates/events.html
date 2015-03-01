@@ -1,5 +1,11 @@
 <div class="events">
-<% _.each(goals, function(el, index){%>
-   <div>гол <%= el.get('created') %></div>
+<% _.each(goals, function(goal, index){%>
+   <div>
+      <% if (goal.get('autogoal')) { %>
+         автогол
+      <%} else  {%>
+         гол
+      <%}%>
+   </div>
 <% }) %>
 </div>

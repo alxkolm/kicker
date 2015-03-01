@@ -1,23 +1,6 @@
 <div class="container-track split-screen">
-    <div class="top left button-goal player-box" user-id="<%= players.a.id %>">
-        <div class="button-goal autogoal" autogoal>Автогол</div>
-        <% userGoals = goals.where({user_id: players.a.id}) %>
-        <div class="name"><%- players.a.lastname %> <span><%= _.size(userGoals) %></span></div>
-        <%= eventsTpl({goals: userGoals, userId: players.a.id}) %>
-    </div>
-    <div class="top right button-goal player-box" user-id="<%= players.c.id %>">
-        <% userGoals = goals.where({user_id: players.c.id}) %>
-        <div class="name"><%- players.c.lastname %> <span><%= _.size(userGoals) %></span></div>
-        <%= eventsTpl({goals: userGoals, userId: players.c.id}) %>
-    </div>
-    <div class="bottom left button-goal player-box" user-id="<%= players.b.id %>">
-        <% userGoals = goals.where({user_id: players.b.id}) %>
-        <div class="name"><%- players.b.lastname %> <span><%= _.size(userGoals) %></span></div>
-        <%= eventsTpl({goals: userGoals, userId: players.b.id}) %>
-    </div>
-    <div class="bottom right button-goal player-box" user-id="<%= players.d.id %>">
-        <% userGoals = goals.where({user_id: players.d.id}) %>
-        <div class="name"><%- players.d.lastname %> <span><%= _.size(userGoals) %></span></div>
-        <%= eventsTpl({goals: userGoals, userId: players.d.id}) %>
-    </div>
+    <%= view.playerTpl({player: players.a, goals: goals, view: view, cssClass: 'top left'}) %>
+    <%= view.playerTpl({player: players.c, goals: goals, view: view, cssClass: 'top right'}) %>
+    <%= view.playerTpl({player: players.b, goals: goals, view: view, cssClass: 'bottom left'}) %>
+    <%= view.playerTpl({player: players.d, goals: goals, view: view, cssClass: 'bottom right'}) %>
 </div>

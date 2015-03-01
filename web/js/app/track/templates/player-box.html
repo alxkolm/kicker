@@ -1,0 +1,14 @@
+<div class="<%= cssClass %> button-goal player-box" user-id="<%= player.id %>">
+    <div class="button-goal autogoal" autogoal user-id="<%= player.id %>">Автогол</div>
+    <%
+    userGoals = goals.where({user_id: player.id, autogoal: 0})
+    userAutoGoals = goals.where({user_id: player.id, autogoal: 1})
+    userAllGoals = goals.where({user_id: player.id})
+    %>
+    <div class="name">
+        <%- player.lastname %>
+        <span><%= _.size(userGoals) %></span>
+        <span>(<%= _.size(userAutoGoals) %>)</span>
+    </div>
+    <%= view.eventsTpl({goals: userAllGoals, userId: player.id}) %>
+</div>
