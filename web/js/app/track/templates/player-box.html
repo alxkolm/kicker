@@ -7,8 +7,9 @@
     %>
     <div class="name">
         <%- player.lastname %>
-        <span><%= _.size(userGoals) %></span>
-        <span>(<%= _.size(userAutoGoals) %>)</span>
     </div>
-    <%= view.eventsTpl({goals: userAllGoals, userId: player.id}) %>
+    <div class="goals">
+        <div>Голов: <%= _.size(userGoals) %></div>
+        <div>Автоголов: <%= _.size(userAutoGoals) %></div>
+    </div>
 </div>

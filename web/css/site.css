@@ -120,8 +120,8 @@ a.desc:after {
     bottom: 0;
     right: 0;
 }
-.split-screen > div {
-    height: 50%;
+.split-screen > div.player-box {
+    height: 45%;
     width: 50%;
     padding: 2.5%;
     float: left;
@@ -153,4 +153,23 @@ a.desc:after {
     padding: 5px;
     border: 1px solid silver;
     cursor: pointer;
+}
+.player-box .name {
+    font-weight: bold;
+}
+
+.split-screen .score {
+    background-color: #444444;
+    height: 10%;
+    width: 100%;
+    padding: 5px;
+    float: left;
+    color: white;
+    position: relative;
+    text-align: center;
+    font-size: x-large;
+    letter-spacing: 5px;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }

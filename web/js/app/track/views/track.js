@@ -51,6 +51,17 @@ define([
                     goal.set(reply);
                 }
             });
+        },
+        score: function(){
+            var teamAScore = this.goals.filter(function(goal){
+                return !goal.get('autogoal') && (goal.get('user_id') == this.players.a.id || goal.get('user_id') == this.players.b.id)
+                    || goal.get('autogoal') && (goal.get('user_id') != this.players.a.id && goal.get('user_id') != this.players.b.id)
+            }, this);
+            var teamBScore = this.goals.filter(function(goal){
+                return !goal.get('autogoal') && (goal.get('user_id') == this.players.c.id || goal.get('user_id') == this.players.d.id)
+                    || goal.get('autogoal') && (goal.get('user_id') != this.players.c.id && goal.get('user_id') != this.players.d.id)
+            }, this);
+            return _.size(teamAScore) + ':' + _.size(teamBScore);
         }
     });
     return TrackView;
