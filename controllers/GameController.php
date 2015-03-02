@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\GameForm;
 use app\models\GameUser;
+use app\models\Goal;
 use app\models\User;
 use Yii;
 use app\models\Game;
@@ -42,6 +43,11 @@ class GameController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => [$this, 'allowEdit']
+                    ],
+                    [
+                        'actions' => ['undo-goal'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -211,6 +217,17 @@ class GameController extends Controller
         $goal->refresh();
 
         return $goal->attributes;
+    }
+
+    public function actionUndoGoal()
+    {
+        /** @var Goal $model */
+        $model = Goal::findOne(Yii::$app->request->getBodyParam('id'));
+        if ($model === null){
+            throw new Exception('Goal model not found');
+        }
+
+        $model->delete();
     }
 
     public function actionRepeat($id)

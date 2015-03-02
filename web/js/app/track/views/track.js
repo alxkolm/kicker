@@ -10,7 +10,8 @@ define([
         playerTpl: _.template(playerTpl),
         events: {
             'click .button-goal': 'goal',
-            'click .button-restart': 'restartGame'
+            'click .button-restart': 'restartGame',
+            'click .button-undo': 'undoGoal'
         },
         players: null,
         game: null,
@@ -52,6 +53,14 @@ define([
                     goal.set(reply);
                 }
             });
+        },
+        /**
+         * Отменить последний гол
+         */
+        undoGoal: function(){
+            var lastGoal = this.goals.pop();
+            this.render();
+            $.post('/game/undo-goal', {id: lastGoal.id});
         },
         score: function(){
             var teamAScore = this.goals.filter(function(goal){
