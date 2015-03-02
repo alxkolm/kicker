@@ -120,6 +120,12 @@ a.desc:after {
     bottom: 0;
     right: 0;
 }
+
+.split-screen .button {
+    padding: 5px;
+    border: 1px solid silver;
+    cursor: pointer;
+}
 .split-screen > div.player-box {
     height: 45%;
     width: 50%;
@@ -150,15 +156,13 @@ a.desc:after {
 .player-box .autogoal {
     position: absolute;
     right: 2.5%;
-    padding: 5px;
-    border: 1px solid silver;
-    cursor: pointer;
 }
+
 .player-box .name {
     font-weight: bold;
 }
 
-.split-screen .score {
+.split-screen .toolbox {
     background-color: #444444;
     height: 10%;
     width: 100%;
@@ -166,10 +170,20 @@ a.desc:after {
     float: left;
     color: white;
     position: relative;
-    text-align: center;
-    font-size: x-large;
-    letter-spacing: 5px;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+}
+
+.split-screen .toolbox .score {
+    text-align: center;
+    font-size: x-large;
+    letter-spacing: 5px;
+    position: absolute;
+    left: 45%;
+    width: 10%;
+}
+
+.split-screen .toolbox .button-restart{
+
 }

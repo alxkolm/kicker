@@ -3,11 +3,13 @@
 namespace app\controllers;
 
 use app\models\GameForm;
+use app\models\GameUser;
 use app\models\User;
 use Yii;
 use app\models\Game;
 use app\models\GameSearch;
 use yii\base\Action;
+use yii\base\Exception;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -201,7 +203,7 @@ class GameController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $gameId = Yii::$app->request->post('id');
         $userId = Yii::$app->request->post('user');
-        $autogoal = (bool) Yii::$app->request->post('autogoal');
+        $autogoal = (bool)Yii::$app->request->post('autogoal');
 
         $game = $this->findModel($gameId);
 
@@ -215,21 +217,22 @@ class GameController extends Controller
     {
         $model = $this->findModel($id);
 
-        $game = new Game();
-        $game->setAttributes($model->getAttributes([
-            'teamA_playerA',
-            'teamA_playerB',
-            'teamB_playerC',
-            'teamB_playerD',
-            'playerA_role',
-            'playerB_role',
-            'playerC_role',
-            'playerD_role',
-        ]));
+        $game         = new Game();
         $game->scoreA = 0;
         $game->scoreB = 0;
-        $game->date = date('Y-m-d');
+        $game->date   = date('Y-m-d');
         if ($game->save()){
+            foreach ($model->getGameUsers()->all() as $player){
+                $newPlayer           = new GameUser();
+                $newPlayer->game_id  = $game->id;
+                $newPlayer->user_id  = $player->user_id;
+                $newPlayer->team     = $player->team;
+                $newPlayer->position = $player->position;
+                $newPlayer->flags    = $player->flags;
+                if (!$newPlayer->save()){
+                    throw new Exception(json_encode($newPlayer->errors));
+                }
+            }
             $this->redirect(['game/track', 'id' => $game->id]);
         } else {
             throw new \Exception('Не удалось создать новую игру.'.Json::encode($game->errors));

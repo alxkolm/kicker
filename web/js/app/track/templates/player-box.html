@@ -1,5 +1,5 @@
 <div class="<%= cssClass %> button-goal player-box" user-id="<%= player.id %>">
-    <div class="button-goal autogoal" autogoal user-id="<%= player.id %>">Автогол</div>
+    <div class="button-goal autogoal button" autogoal user-id="<%= player.id %>">Автогол</div>
     <%
     userGoals = goals.where({user_id: player.id, autogoal: 0})
     userAutoGoals = goals.where({user_id: player.id, autogoal: 1})

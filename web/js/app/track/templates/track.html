@@ -1,7 +1,11 @@
 <div class="container-track split-screen">
     <%= view.playerTpl({player: players.a, goals: goals, view: view, cssClass: 'top left'}) %>
     <%= view.playerTpl({player: players.c, goals: goals, view: view, cssClass: 'top right'}) %>
-    <div class="score"><%= view.score() %></div>
+    <div class="toolbox">
+        <div class="button-undo pull-left button">Отменить гол</div>
+        <div class="score"><%= view.score() %></div>
+        <div class="button-restart pull-right button">Повтор игры</div>
+    </div>
     <%= view.playerTpl({player: players.b, goals: goals, view: view, cssClass: 'bottom left'}) %>
     <%= view.playerTpl({player: players.d, goals: goals, view: view, cssClass: 'bottom right'}) %>
 </div>

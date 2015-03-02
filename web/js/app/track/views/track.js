@@ -9,7 +9,8 @@ define([
         eventsTpl: _.template(eventsTpl),
         playerTpl: _.template(playerTpl),
         events: {
-            'click .button-goal': 'goal'
+            'click .button-goal': 'goal',
+            'click .button-restart': 'restartGame'
         },
         players: null,
         game: null,
@@ -62,6 +63,12 @@ define([
                     || goal.get('autogoal') && (goal.get('user_id') != this.players.c.id && goal.get('user_id') != this.players.d.id)
             }, this);
             return _.size(teamAScore) + ':' + _.size(teamBScore);
+        },
+        /**
+         * Повтор игры с тем же составом
+         */
+        restartGame: function(){
+            window.location = '/game/repeat?id=' + this.game.id;
         }
     });
     return TrackView;
