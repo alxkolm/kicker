@@ -130,6 +130,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
     /**
+     * Finds user by email
+     * @param string $email
+     * @return null|static
+     */
+    public static function findByEmail($email)
+    {
+        return static::findOne(['email' => $email]);
+    }
+
+    /**
      * Finds user by password reset token
      *
      * @param string $token password reset token

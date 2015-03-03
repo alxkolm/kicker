@@ -21,8 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-5">
             Ещё не зарегистрированы? <?= Html::a('Зарегистрироваться', ['site/signup']) ?>
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-            <?= $form->field($model, 'firstname') ?>
-            <?= $form->field($model, 'lastname') ?>
+            <?= $form->field($model, 'email')->input('email') ?>
             <?= $form->field($model, 'password')->passwordInput() ?>
             <?= $form->field($model, 'rememberMe')->checkbox() ?>
             <div style="color:#999;margin:1em 0">
